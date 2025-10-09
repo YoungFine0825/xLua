@@ -25,6 +25,42 @@ option ( USING_LUAJIT "using luajit" OFF )
 option ( GC64 "using gc64" OFF )
 option ( LUAC_COMPATIBLE_FORMAT "compatible format" OFF )
 
+ #begin lua-rapidjson
+ set (RAPIDJSON_SRC 
+    lua-rapidjson/src/rapidjson.cpp
+    lua-rapidjson/src/Document.cpp
+    lua-rapidjson/src/Schema.cpp
+    lua-rapidjson/src/Userdata.hpp
+    lua-rapidjson/src/file.hpp
+    lua-rapidjson/src/luax.hpp
+    lua-rapidjson/src/values.cpp
+    lua-rapidjson/src/values.hpp
+ )
+ set_property(
+     SOURCE ${RAPIDJSON_SRC}
+     APPEND
+     PROPERTY COMPILE_DEFINITIONS
+     LUA_LIB
+ )
+ list(APPEND THIRDPART_INC  
+    lua-rapidjson/src
+    lua-rapidjson/rapidjson/include
+ )
+ set (THIRDPART_SRC ${THIRDPART_SRC} ${RAPIDJSON_SRC})
+ #end lua-rapidjson
+
+  #begin lua-protobuf
+ set (PROTOBUF_SRC lua-protobuf/pb.c)
+ set_property(
+     SOURCE ${PROTOBUF_SRC}
+     APPEND
+     PROPERTY COMPILE_DEFINITIONS
+     LUA_LIB
+ )
+ list(APPEND THIRDPART_INC  lua-protobuf)
+ set (THIRDPART_SRC ${THIRDPART_SRC} ${PROTOBUF_SRC})
+ #end lua-protobuf
+
 find_path(XLUA_PROJECT_DIR NAMES SConstruct
     PATHS 
     ${CMAKE_SOURCE_DIR}
